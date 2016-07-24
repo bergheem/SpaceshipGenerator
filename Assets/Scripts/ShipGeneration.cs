@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 using System.Collections.Generic;
 
 public static class ShipGeneration
@@ -116,7 +117,12 @@ public static class ShipGeneration
 	static Section GenerateHullSection(int sectionNumber, GenParameters parameters = new GenParameters())
 	{
 		//load source mesh and material
-		int modelInt = Random.Range(3, 4);
+		int hullsN = GetFileNumber(sectionsDirectory, "hull");
+		if (hullsN <= 0)
+		{
+			return new Section();
+		}
+		int modelInt = Random.Range(1, hullsN + 1);
 		Mesh sourceMesh = (Mesh)Resources.Load(sectionsDirectory + "hull" + (modelInt < 10 ? "0" : "") + modelInt, typeof(Mesh));
 		Material sourceMaterial = (Material)Resources.Load(materialsDirectory + "matTest", typeof(Material));
 
@@ -160,7 +166,12 @@ public static class ShipGeneration
 	static Section GenerateWingSection(int wingNumber)
 	{
 		//load source mesh and material
-		int modelInt = Random.Range(1, 1);
+		int wingsN = GetFileNumber(sectionsDirectory, "wing");
+		if (wingsN <= 0)
+		{
+			return new Section();
+		}
+		int modelInt = Random.Range(1, wingsN + 1);
 		Mesh sourceMesh = (Mesh)Resources.Load(sectionsDirectory + "wing" + (modelInt < 10 ? "0" : "") + modelInt, typeof(Mesh));
 		Material sourceMaterial = (Material)Resources.Load(materialsDirectory + "matTest", typeof(Material));
 
@@ -267,6 +278,19 @@ public static class ShipGeneration
 		}
 
 		return hardpoints;
+	}
+
+	static int GetFileNumber(string directoryInResources, string find)
+	{
+		int n = 0;
+		foreach (string file in Directory.GetFiles(Application.dataPath + "/Resources/" + directoryInResources))
+		{
+			if (!file.Contains("meta") && file.Contains(find))
+				n++;
+		}
+		if (n <= 0)
+			Debug.LogError("No '" + find + "' found in '" + Application.dataPath + "/Resources/" + directoryInResources + "'");
+		return n;
 	}
 
 	/// <summary>
