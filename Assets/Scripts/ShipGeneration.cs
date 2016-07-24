@@ -116,7 +116,7 @@ public static class ShipGeneration
 	static Section GenerateHullSection(int sectionNumber, GenParameters parameters = new GenParameters())
 	{
 		//load source mesh and material
-		int modelInt = Random.Range(1, 4);
+		int modelInt = Random.Range(3, 4);
 		Mesh sourceMesh = (Mesh)Resources.Load(sectionsDirectory + "hull" + (modelInt < 10 ? "0" : "") + modelInt, typeof(Mesh));
 		Material sourceMaterial = (Material)Resources.Load(materialsDirectory + "matTest", typeof(Material));
 
