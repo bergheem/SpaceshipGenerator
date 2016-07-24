@@ -148,7 +148,7 @@ public static class ShipGeneration
 
 		//TODO do here mesh deformation
 		mesh.vertices = MeshTaper(mesh, genTaper);
-//		mesh.vertices = MeshResize(mesh, genSize);
+		mesh.vertices = MeshResize(mesh, genSize);
 
 		//assign a new mesh and a new material
 		meshRenderer.sharedMaterial = new Material(sourceMaterial);
