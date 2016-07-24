@@ -116,7 +116,7 @@ public static class ShipGeneration
 	static Section GenerateHullSection(int sectionNumber, GenParameters parameters = new GenParameters())
 	{
 		//load source mesh and material
-		int modelInt = Random.Range(1, 3);
+		int modelInt = Random.Range(1, 4);
 		Mesh sourceMesh = (Mesh)Resources.Load(sectionsDirectory + "hull" + (modelInt < 10 ? "0" : "") + modelInt, typeof(Mesh));
 		Material sourceMaterial = (Material)Resources.Load(materialsDirectory + "matTest", typeof(Material));
 
@@ -148,7 +148,7 @@ public static class ShipGeneration
 
 		//TODO do here mesh deformation
 		mesh.vertices = MeshTaper(mesh, genTaper);
-		mesh.vertices = MeshResize(mesh, genSize);
+//		mesh.vertices = MeshResize(mesh, genSize);
 
 		//assign a new mesh and a new material
 		meshRenderer.sharedMaterial = new Material(sourceMaterial);
@@ -260,7 +260,10 @@ public static class ShipGeneration
 				dir = Vector3.right;
 
 			if (dir != Vector3.zero)
-				hardpoints.Add(dir, i);
+			{
+				if (!hardpoints.ContainsKey(dir))
+					hardpoints.Add(dir, i);
+			}
 		}
 
 		return hardpoints;
